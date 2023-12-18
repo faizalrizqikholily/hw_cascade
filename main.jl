@@ -46,7 +46,7 @@ end
 
 function count_accuracy(kolom, real_class, predicted_class)
     new_data = hcat(kolom, real_class, predicted_class)
-    benar = findall(new_data[:, 2] .== new_data[:, 3])  # Extract indices where benar is true
+    benar = findall(new_data[:, 2] .== new_data[:, 3])
     accuracy = length(benar) / size(new_data, 1) * 100
     accuracy = floor(accuracy)
     return benar, accuracy
