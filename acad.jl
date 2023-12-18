@@ -45,7 +45,7 @@ function predict_class(data_utuh, concatenated_means)
 end
 
 function count_accuracy(kolom, predicted_class)
-    new_data = hcat(kolom, data[:, end], predicted_class)
+    new_data = hcat(kolom, data_origin[:, end], predicted_class)
     benar = findall(new_data[:, 2] .== new_data[:, 3])  # Extract indices where benar is true
     accuracy = length(benar) / size(new_data, 1) * 100
     return benar, accuracy
@@ -57,19 +57,19 @@ data_origin = deserialize("data_9m.mat")
 #convert data to Float64
 data_origin = convert(Array{Float64,2}, data_origin)
 
-data_origin = calculating_mean(data_origin)
+mean_origin = calculating_mean(data_origin)
 
 # Pisahkan data utuh menjadi 4 databaru berdasarkan kolom
-data_kolom_1 = data[:, 1]
-data_kolom_2 = data[:, 2]
-data_kolom_3 = data[:, 3]
-data_kolom_4 = data[:, 4]
+data_kolom_1 = data_origin[:, 1]
+data_kolom_2 = data_origin[:, 2]
+data_kolom_3 = data_origin[:, 3]
+data_kolom_4 = data_origin[:, 4]
 
 # Pisahkan data hasil concatenated_means menjadi 4 data baru berdasarkan kolom
-mean_kolom_1 = concatenated_means[:, 1]
-mean_kolom_2 = concatenated_means[:, 2]
-mean_kolom_3 = concatenated_means[:, 3]
-mean_kolom_4 = concatenated_means[:, 4]
+mean_kolom_1 = mean_origin[:, 1]
+mean_kolom_2 = mean_origin[:, 2]
+mean_kolom_3 = mean_origin[:, 3]
+mean_kolom_4 = mean_origin[:, 4]
 
 # Hitung prediksi kelas untuk setiap kolom
 predictions_kolom_1 = predict_class(data_kolom_1, mean_kolom_1)
@@ -99,9 +99,9 @@ elseif sorted_accuracies[1] == accuracy4
 end
 
 # selecting all rows based on selected_benar
-selected_rows_iter1 = data[selected_benar, :]
+selected_rows_iter1 = data_origin[selected_benar, :]
 
 selected_rows_iter1 = calculating_mean(selected_rows_iter1)
 
-display(data_origin)
+display(mean_origin)
 display(selected_rows_iter1)
